@@ -1,0 +1,8 @@
+node_modules
+build/
+.gitignore
+.bin
+.husky
+/cypress-coverage/
+.nyc
+.nyc_output
