@@ -4,6 +4,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.sortJSON": true
   },
-  "cSpell.words": [],
+  "cSpell.words": ["colour"],
   "files.autoSave": "off"
 }
