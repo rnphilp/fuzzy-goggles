@@ -6,10 +6,12 @@ import {
   Typography,
   CardActionArea,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-function ActionAreaCard({ name, description, image }) {
+function ActionAreaCard({ name, description, image, link }) {
+  const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} onClick={() => navigate(link)}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -30,12 +32,17 @@ function ActionAreaCard({ name, description, image }) {
   );
 }
 
-ActionAreaCard.defaultProps = { description: '', image: 'wip.jpeg' };
+ActionAreaCard.defaultProps = {
+  description: '',
+  image: 'wip.jpeg',
+  link: '',
+};
 
 ActionAreaCard.propTypes = {
   name: PT.string.isRequired,
   description: PT.string,
   image: PT.string,
+  link: PT.func,
 };
 
 export default ActionAreaCard;

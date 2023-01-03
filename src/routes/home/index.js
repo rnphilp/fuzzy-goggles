@@ -18,10 +18,15 @@ function ProjectsPage() {
           padding: '16px 0',
         }}
       >
-        {gamesList.map(({ name, image, description }, i) => {
+        {gamesList.map(({ name, image, description, path }, i) => {
           return (
             <Grid key={name || i} item>
-              <GameCard name={name} image={image} description={description} />
+              <GameCard
+                name={name}
+                image={image}
+                description={description}
+                link={`/games/${path}`}
+              />
             </Grid>
           );
         })}
