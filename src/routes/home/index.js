@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 
 import GameCard from '../../components/game-cards';
-import gamesList from './games-list';
+import gamesList from '../games-config';
 
 function ProjectsPage() {
   return (
