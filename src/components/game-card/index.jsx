@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-function ActionAreaCard({ name, description, image, link }) {
+function GameCard({ name, description, image, link }) {
   const navigate = useNavigate();
   return (
     <Card sx={{ maxWidth: 345 }} onClick={() => navigate(link)}>
@@ -32,17 +32,17 @@ function ActionAreaCard({ name, description, image, link }) {
   );
 }
 
-ActionAreaCard.defaultProps = {
+GameCard.defaultProps = {
   description: '',
   image: 'wip.jpeg',
   link: '',
 };
 
-ActionAreaCard.propTypes = {
+GameCard.propTypes = {
   name: PT.string.isRequired,
   description: PT.string,
   image: PT.string,
   link: PT.func,
 };
 
-export default ActionAreaCard;
+export default GameCard;
