@@ -2,8 +2,6 @@
 
 import PT from 'prop-types';
 
-const cellSize = 10;
-
 const rectStyles = {
   stroke: 'red',
   'stroke-width': 0.5,
@@ -12,10 +10,10 @@ const rectStyles = {
 
 const textStyles = {
   fill: 'blue',
-  font: `10px roboto`,
+  font: `8px roboto`,
 };
 
-function Cell({ x, y, value }) {
+function Cell({ x, y, value, cellSize }) {
   return (
     <>
       <rect
@@ -28,7 +26,7 @@ function Cell({ x, y, value }) {
       />
       <text
         x={x + cellSize / 2}
-        y={y + 0.85 * cellSize}
+        y={y + 0.75 * cellSize}
         textAnchor="middle"
         css={textStyles}
       >
@@ -40,12 +38,14 @@ function Cell({ x, y, value }) {
 
 Cell.defaultProps = {
   value: '',
+  cellSize: 10,
 };
 
 Cell.propTypes = {
   x: PT.number.isRequired,
   y: PT.number.isRequired,
   value: PT.string,
+  cellSize: PT.number,
 };
 
 export default Cell;
