@@ -162,5 +162,17 @@ module.exports = {
         'testing-library/no-debugging-utils': 'warn',
       },
     },
+    {
+      files: ['**/helpers/**.js', '**/utils/**.js'],
+      rules: {
+        'import/prefer-default-export': 'off',
+      },
+    },
+    {
+      files: ['**/helpers/index.js', '**/utils/index.js'],
+      rules: {
+        'import/no-default-export': 'error',
+      },
+    },
   ],
 };
