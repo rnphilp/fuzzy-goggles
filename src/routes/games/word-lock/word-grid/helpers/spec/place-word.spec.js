@@ -74,9 +74,14 @@ describe('placeWord()', () => {
     });
   });
   it('throws an error when there are no matching characters', () => {
+    const word = 'fact';
     const testFunction = () => {
-      placeWord('fact', [horizontalWord, secondWord]);
+      placeWord(word, [horizontalWord, secondWord]);
     };
-    expect(testFunction).toThrow(Error('No matching characters found'));
+    expect(testFunction).toThrow(
+      Error(
+        `Cannot place word "${word}". No matching characters found in a location that does not clash`
+      )
+    );
   });
 });

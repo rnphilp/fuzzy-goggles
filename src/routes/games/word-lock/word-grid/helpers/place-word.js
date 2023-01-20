@@ -1,3 +1,5 @@
+import checkClash from './check-clash';
+
 const placeFirstWord = word => {
   const i = Math.round(Math.random());
   return {
@@ -12,9 +14,7 @@ export default (word, placedWords) => {
     return placeFirstWord(word);
   }
 
-  let matchingExistingWord;
-  let matchIndexOfExistingWord;
-  let matchIndexOfNewWord;
+  let newWord;
 
   const matchFound = placedWords.some(placedWord => {
     const { word: existingWord } = placedWord;
@@ -22,36 +22,44 @@ export default (word, placedWords) => {
     return word.split('').some((letter, i) => {
       const indexOfMatch = existingWord.indexOf(letter);
       if (indexOfMatch !== -1) {
-        matchingExistingWord = placedWord;
-        matchIndexOfExistingWord = indexOfMatch;
-        matchIndexOfNewWord = i;
-        return true;
+        const matchingExistingWord = placedWord;
+
+        const {
+          coordinates: existingCoordinates,
+          direction: existingDirection,
+        } = matchingExistingWord;
+        const direction = existingDirection !== 'x' ? 'x' : 'y';
+        const coordinates = [
+          direction === 'x'
+            ? existingCoordinates[0] - i
+            : existingCoordinates[0] + indexOfMatch,
+          direction === 'y'
+            ? existingCoordinates[1] - i
+            : existingCoordinates[1] + indexOfMatch,
+        ];
+
+        newWord = {
+          word,
+          coordinates,
+          direction,
+        };
+
+        const otherPlacedWords = placedWords.filter(
+          x => x.word !== existingWord
+        );
+        const clashes = checkClash(newWord, otherPlacedWords);
+        if (!clashes) return true;
+        return false;
       }
       return false;
     });
   });
 
   if (!matchFound) {
-    throw Error('Cannot place word. No matching characters found');
+    throw Error(
+      `Cannot place word "${word}". No matching characters found in a location that does not clash`
+    );
   }
 
-  const { coordinates: existingCoordinates, direction: existingDirection } =
-    matchingExistingWord;
-
-  const direction = existingDirection !== 'x' ? 'x' : 'y';
-
-  const coordinates = [
-    direction === 'x'
-      ? existingCoordinates[0] - matchIndexOfNewWord
-      : existingCoordinates[0] + matchIndexOfExistingWord,
-    direction === 'y'
-      ? existingCoordinates[1] - matchIndexOfNewWord
-      : existingCoordinates[1] + matchIndexOfExistingWord,
-  ];
-
-  return {
-    word,
-    coordinates,
-    direction,
-  };
+  return newWord;
 };

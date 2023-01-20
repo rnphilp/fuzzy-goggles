@@ -63,7 +63,6 @@ module.exports = {
     'no-use-before-define': 'error',
     camelcase: 'error',
     'max-depth': ['error', 3],
-    'max-nested-callbacks': ['error', 3],
     'no-nested-ternary': 'error',
     'no-unneeded-ternary': 'error',
     'no-var': 'error',
@@ -132,7 +131,7 @@ module.exports = {
       processor: 'markdown/markdown',
     },
     {
-      files: ['**/?(*.)+(spec|test).[jt]s?(x)'],
+      files: ['**/?(*.)+(spec|test).[jt]s?(x)'], // all test files
       extends: [
         'plugin:jest/all',
         'plugin:testing-library/react',
