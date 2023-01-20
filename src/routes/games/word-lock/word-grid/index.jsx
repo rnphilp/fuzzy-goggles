@@ -20,7 +20,7 @@ const layoutWord = (word, { coordinates, direction }, { cellSize, gap }) => {
 };
 
 function WordGrid() {
-  const words = ['cupboard', 'cheese', 'fridge', 'motor', 'chair', 'table'];
+  const words = ['random', 'words', 'forming', 'crossword', 'grid'];
   const config = {
     cellSize: 9,
     gap: 1,
