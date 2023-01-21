@@ -1,12 +1,9 @@
+/** @jsxImportSource @emotion/react */
+
 import { Outlet } from 'react-router-dom';
 
 function GamePage() {
-  return (
-    <>
-      <p>game wrapper code in here</p>
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 }
 
 export default GamePage;

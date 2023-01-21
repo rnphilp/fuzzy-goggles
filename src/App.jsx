@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 

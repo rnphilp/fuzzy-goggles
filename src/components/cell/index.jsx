@@ -4,7 +4,7 @@ import PT from 'prop-types';
 
 const rectStyles = {
   stroke: 'red',
-  'stroke-width': 0.5,
+  strokeWidth: 0.5,
   fill: 'green',
 };
 
