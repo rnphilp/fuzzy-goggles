@@ -2,15 +2,16 @@
 
 import PT from 'prop-types';
 
-const rectStyles = {
-  stroke: 'red',
-  strokeWidth: 0.5,
-  fill: 'green',
-};
-
-const textStyles = {
-  fill: 'blue',
-  font: `8px roboto`,
+const styles = {
+  rectStyles: {
+    stroke: 'red',
+    strokeWidth: 0.5,
+    fill: 'green',
+  },
+  textStyles: {
+    fill: 'blue',
+    font: `8px roboto`,
+  },
 };
 
 function Cell({ x, y, value, cellSize }) {
@@ -22,13 +23,13 @@ function Cell({ x, y, value, cellSize }) {
         height={cellSize}
         width={cellSize}
         rx="1"
-        css={rectStyles}
+        css={styles.rectStyles}
       />
       <text
         x={x + cellSize / 2}
         y={y + 0.75 * cellSize}
         textAnchor="middle"
-        css={textStyles}
+        css={styles.textStyles}
       >
         {value}
       </text>
