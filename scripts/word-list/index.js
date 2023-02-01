@@ -12,7 +12,7 @@ const removeInvalidWords = words =>
 
 const writeToPublic = (data, filename) =>
   fs.writeFileSync(
-    `${__dirname}/../../public/data/${filename}.json`,
+    `${__dirname}/../../data/${filename}.json`,
     JSON.stringify(data)
   );
 

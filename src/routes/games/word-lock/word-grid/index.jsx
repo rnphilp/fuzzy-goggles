@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
+import PT from 'prop-types';
 
 import Word from '../word';
 import { arrangeWords, gridSize } from './helpers';
 
-function WordGrid() {
-  const words = ['random', 'words', 'forming', 'crossword', 'grid'];
+function WordGrid({ words }) {
   const config = {
     cellSize: 9,
     gap: 1,
@@ -31,5 +31,9 @@ function WordGrid() {
     </svg>
   );
 }
+
+WordGrid.propTypes = {
+  words: PT.arrayOf(PT.string.isRequired).isRequired,
+};
 
 export default WordGrid;

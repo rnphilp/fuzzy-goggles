@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 
 import { Grid } from '@mui/material';
+
 import WordGrid from './word-grid';
+import { groupedWords } from '../../../data';
 
 const styles = {
   grid: {
@@ -15,11 +17,19 @@ const styles = {
   },
 };
 
+const selectWord = noOfLetters => {
+  const wordGroup = groupedWords[noOfLetters];
+  const randomIndex = Math.round(Math.random() * wordGroup.length);
+  return wordGroup[randomIndex].words;
+};
+
 function WordLock() {
+  const noOfLetters = 4;
+  const words = selectWord(noOfLetters);
   return (
     <Grid container zeroMinWidth css={styles.grid}>
       <Grid item xs={12} md={6} css={styles.wordGridContainer}>
-        <WordGrid />
+        <WordGrid words={words} />
       </Grid>
       <Grid item xs={12} md={6}>
         <p>placeholder</p>
