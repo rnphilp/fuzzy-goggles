@@ -4,7 +4,7 @@ import PT from 'prop-types';
 import Word from '../word';
 import { arrangeWords, gridSize } from './helpers';
 
-function WordGrid({ words }) {
+function WordGrid({ words, guessedWords }) {
   const config = {
     cellSize: 9,
     gap: 1,
@@ -23,6 +23,7 @@ function WordGrid({ words }) {
         <Word
           key={word}
           word={word}
+          hide={!guessedWords.includes(word)}
           coordinates={coordinates}
           direction={direction}
           config={config}
@@ -34,6 +35,7 @@ function WordGrid({ words }) {
 
 WordGrid.propTypes = {
   words: PT.arrayOf(PT.string.isRequired).isRequired,
+  guessedWords: PT.arrayOf(PT.string.isRequired).isRequired,
 };
 
 export default WordGrid;

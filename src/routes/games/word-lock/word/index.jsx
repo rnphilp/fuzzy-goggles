@@ -3,13 +3,14 @@
 import PT from 'prop-types';
 import { layoutWord } from './helpers';
 
-function Word({ word, coordinates, direction, config }) {
-  const cells = layoutWord(word, { coordinates, direction }, config);
+function Word({ word, hide, coordinates, direction, config }) {
+  const cells = layoutWord(word, hide, { coordinates, direction }, config);
   return <g key={word}>{cells}</g>;
 }
 
 Word.propTypes = {
   word: PT.string.isRequired,
+  hide: PT.bool.isRequired,
   coordinates: PT.arrayOf(PT.number).isRequired,
   direction: PT.string.isRequired,
   config: PT.shape({

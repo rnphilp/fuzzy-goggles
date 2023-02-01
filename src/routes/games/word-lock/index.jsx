@@ -26,10 +26,11 @@ const selectWord = noOfLetters => {
 function WordLock() {
   const noOfLetters = 4;
   const words = selectWord(noOfLetters);
+  const guessedWords = words;
   return (
     <Grid container zeroMinWidth css={styles.grid}>
       <Grid item xs={12} md={6} css={styles.wordGridContainer}>
-        <WordGrid words={words} />
+        <WordGrid words={words} guessedWords={guessedWords} />
       </Grid>
       <Grid item xs={12} md={6}>
         <p>placeholder</p>
