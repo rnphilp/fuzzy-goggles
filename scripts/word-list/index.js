@@ -10,9 +10,9 @@ const removeInvalidWords = words =>
     word => ![...word].some(letter => letter === letter.toUpperCase())
   );
 
-const writeToPublic = (data, filename) =>
+const writeToFile = (data, filename) =>
   fs.writeFileSync(
-    `${__dirname}/../../data/${filename}.json`,
+    `${__dirname}/../../src/data/${filename}.json`,
     JSON.stringify(data)
   );
 
@@ -30,13 +30,13 @@ const groupByLetters = allWords => {
   });
   return popularGroups;
 };
-const runScript = () => {
-  const allWords = readFile(`${__dirname}/data/english-word-list.txt`);
+const runScript = filepath => {
+  const allWords = readFile(filepath);
   const filteredWords = removeInvalidWords(allWords);
-  writeToPublic(filteredWords, 'words');
+  writeToFile(filteredWords, 'words');
 
   const groupedWords = groupByLetters(filteredWords);
-  writeToPublic(groupedWords, 'grouped-words');
+  writeToFile(groupedWords, 'grouped-words');
 };
 
-runScript();
+runScript(`${__dirname}/data/english-word-list.txt`);
