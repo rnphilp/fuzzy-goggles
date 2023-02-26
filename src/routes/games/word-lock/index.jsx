@@ -31,17 +31,23 @@ const selectWord = noOfLetters => {
   };
 };
 
+const checkIfPortrait = () => {
+  if (window.screen?.orientation) {
+    if (window.screen.orientation.type.includes('portrait')) return true;
+    return false;
+  }
+  return window.orientation === 0 || window.orientation === 180;
+};
+
 function WordLock() {
   // TODO: move screen rotation to context at game level
-  const [isPortrait, setIsPortrait] = useState(
-    window.screen.orientation.type.includes('portrait')
-  );
+  const [isPortrait, setIsPortrait] = useState(checkIfPortrait());
 
-  window.screen.orientation.onchange = () => {
-    if (window.screen.orientation.type.includes('portrait'))
-      return setIsPortrait(true);
-    return setIsPortrait(false);
-  };
+  if (window.screen?.orientation) {
+    window.screen.orientation.onchange = () => {
+      setIsPortrait(checkIfPortrait());
+    };
+  }
 
   const noOfLetters = 4;
   const [words, setWords] = useState([]);
