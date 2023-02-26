@@ -10,10 +10,9 @@ const styles = {
     width: '100vw',
     height: '100vh',
   },
-  wordGridContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  wordGrid: {
+    height: '100%',
+    width: '100%',
   },
 };
 
@@ -26,11 +25,21 @@ const selectWord = noOfLetters => {
 function WordLock() {
   const noOfLetters = 4;
   const words = selectWord(noOfLetters);
-  const guessedWords = words;
+  const guessedWords = [words[0], words[1], words[2]];
   return (
-    <Grid container zeroMinWidth css={styles.grid}>
-      <Grid item xs={12} md={6} css={styles.wordGridContainer}>
-        <WordGrid words={words} guessedWords={guessedWords} />
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+      css={styles.grid}
+    >
+      <Grid item xs={12} md={6} css={styles.wordGrid}>
+        <WordGrid
+          words={words}
+          guessedWords={guessedWords}
+          css={styles.wordGrid}
+        />
       </Grid>
       <Grid item xs={12} md={6}>
         <p>placeholder</p>

@@ -4,6 +4,13 @@ import PT from 'prop-types';
 import Word from '../word';
 import { arrangeWords, gridSize } from './helpers';
 
+const styles = {
+  svgBox: {
+    height: '100%',
+    width: '100%',
+  },
+};
+
 function WordGrid({ words, guessedWords }) {
   const config = {
     cellSize: 9,
@@ -17,9 +24,16 @@ function WordGrid({ words, guessedWords }) {
     width + padding * 2
   } ${height + padding * 2}`;
 
+  const orderedWords = wordsCoordinates.sort((a, b) => {
+    if (guessedWords.includes(a.word) > guessedWords.includes(b.word)) return 1;
+    if (guessedWords.includes(a.word) < guessedWords.includes(b.word))
+      return -1;
+    return 0;
+  });
+
   return (
-    <svg viewBox={viewBoxDims}>
-      {wordsCoordinates.map(({ word, coordinates, direction }) => (
+    <svg viewBox={viewBoxDims} css={styles.svgBox}>
+      {orderedWords.map(({ word, coordinates, direction }) => (
         <Word
           key={word}
           word={word}
