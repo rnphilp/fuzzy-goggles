@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import PT from 'prop-types';
+import { useEffect, useState } from 'react';
 
 import Word from '../word';
 import { arrangeWords, gridSize } from './helpers';
@@ -11,20 +12,26 @@ const styles = {
   },
 };
 
-function WordGrid({ words, guessedWords }) {
-  const config = {
-    cellSize: 9,
-    gap: 1,
-  };
+const config = {
+  cellSize: 9,
+  gap: 1,
+};
 
-  const wordsCoordinates = arrangeWords(words);
-  const { minX, minY, width, height } = gridSize(wordsCoordinates, config);
+function WordGrid({ words, guessedWords }) {
+  const [wordsLayout, setWordsLayout] = useState([]);
+
+  useEffect(() => {
+    const arrangedWords = arrangeWords(words);
+    setWordsLayout(arrangedWords);
+  }, [words]);
+
+  const { minX, minY, width, height } = gridSize(wordsLayout, config);
   const padding = config.cellSize / 2;
   const viewBoxDims = `${minX - padding} ${minY - padding} ${
     width + padding * 2
   } ${height + padding * 2}`;
 
-  const orderedWords = wordsCoordinates.sort((a, b) => {
+  const orderedWords = wordsLayout.sort((a, b) => {
     if (guessedWords.includes(a.word) > guessedWords.includes(b.word)) return 1;
     if (guessedWords.includes(a.word) < guessedWords.includes(b.word))
       return -1;

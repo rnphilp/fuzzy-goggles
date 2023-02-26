@@ -48,7 +48,7 @@ module.exports = {
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'no-underscore-dangle': 'off',
     'no-warning-comments': ['warn', { terms: ['todo', 'fixme'] }],
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'warn',
     'func-names': 'error',
     'default-case': 'error',
     'default-case-last': 'error',

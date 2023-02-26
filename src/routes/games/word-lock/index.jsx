@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
 import { Grid } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import WordGrid from './word-grid';
+import Controls from './controls';
 import { groupedWords } from '../../../data';
 
 const styles = {
@@ -24,7 +25,10 @@ const styles = {
 const selectWord = noOfLetters => {
   const wordGroup = groupedWords[noOfLetters];
   const randomIndex = Math.round(Math.random() * wordGroup.length);
-  return wordGroup[randomIndex].words;
+  return {
+    words: wordGroup[randomIndex].words,
+    letters: wordGroup[randomIndex].letters,
+  };
 };
 
 function WordLock() {
@@ -40,28 +44,45 @@ function WordLock() {
   };
 
   const noOfLetters = 4;
-  const words = selectWord(noOfLetters);
-  const guessedWords = [words[0], words[1], words[2]];
+  const [words, setWords] = useState([]);
+  const [letters, setLetters] = useState([]);
+
+  useEffect(() => {
+    const newWords = selectWord(noOfLetters);
+    setWords(newWords.words);
+    setLetters(newWords.letters);
+  }, []);
+
+  const [guessedWords, setGuessedWords] = useState([]);
+
+  const handleGuess = guess => {
+    const updatedGuesses = [...guessedWords];
+    updatedGuesses.push(guess);
+    setGuessedWords(updatedGuesses);
+  };
+
   return (
-    <Grid
-      container
-      direction={isPortrait ? 'column' : 'row'}
-      justifyContent="center"
-      alignItems="center"
-      flexWrap="nowrap"
-      css={styles.grid}
-    >
+    words.length && (
       <Grid
-        item
-        xs={6}
-        css={isPortrait ? styles.wordGridPortrait : styles.wordGrid}
+        container
+        direction={isPortrait ? 'column' : 'row'}
+        justifyContent="center"
+        alignItems="center"
+        flexWrap="nowrap"
+        css={styles.grid}
       >
-        <WordGrid words={words} guessedWords={guessedWords} />
+        <Grid
+          item
+          xs={6}
+          css={isPortrait ? styles.wordGridPortrait : styles.wordGrid}
+        >
+          <WordGrid words={words} guessedWords={guessedWords} />
+        </Grid>
+        <Grid item xs={6}>
+          <Controls letters={letters} submitGuess={handleGuess} />
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <p>placeholder</p>
-      </Grid>
-    </Grid>
+    )
   );
 }
 
