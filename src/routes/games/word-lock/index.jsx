@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { Grid } from '@mui/material';
+import { useState } from 'react';
 
 import WordGrid from './word-grid';
 import { groupedWords } from '../../../data';
@@ -14,6 +15,10 @@ const styles = {
     height: '100%',
     width: '100%',
   },
+  wordGridPortrait: {
+    height: '50vh',
+    width: '100%',
+  },
 };
 
 const selectWord = noOfLetters => {
@@ -23,25 +28,37 @@ const selectWord = noOfLetters => {
 };
 
 function WordLock() {
+  // TODO: move screen rotation to context at game level
+  const [isPortrait, setIsPortrait] = useState(
+    window.screen.orientation.type.includes('portrait')
+  );
+
+  window.screen.orientation.onchange = () => {
+    if (window.screen.orientation.type.includes('portrait'))
+      return setIsPortrait(true);
+    return setIsPortrait(false);
+  };
+
   const noOfLetters = 4;
   const words = selectWord(noOfLetters);
   const guessedWords = [words[0], words[1], words[2]];
   return (
     <Grid
       container
-      direction="row"
+      direction={isPortrait ? 'column' : 'row'}
       justifyContent="center"
       alignItems="center"
+      flexWrap="nowrap"
       css={styles.grid}
     >
-      <Grid item xs={12} md={6} css={styles.wordGrid}>
-        <WordGrid
-          words={words}
-          guessedWords={guessedWords}
-          css={styles.wordGrid}
-        />
+      <Grid
+        item
+        xs={6}
+        css={isPortrait ? styles.wordGridPortrait : styles.wordGrid}
+      >
+        <WordGrid words={words} guessedWords={guessedWords} />
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={6}>
         <p>placeholder</p>
       </Grid>
     </Grid>
