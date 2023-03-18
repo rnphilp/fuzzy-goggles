@@ -7,7 +7,9 @@ export default function Buttons({ letters, handleClick }) {
       {letters.map(letter => (
         <Button
           key={letter}
+          size="large"
           variant="outlined"
+          sx={{ borderRadius: 28 }}
           onClick={() => handleClick(letter)}
         >
           {letter}

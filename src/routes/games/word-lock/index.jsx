@@ -84,8 +84,10 @@ function WordLock() {
         >
           <WordGrid words={words} guessedWords={guessedWords} />
         </Grid>
-        <Grid item xs={6}>
-          <Controls letters={letters} submitGuess={handleGuess} />
+        <Grid item container justifyContent="center" alignItems="center" xs={6}>
+          <Grid>
+            <Controls letters={letters} submitGuess={handleGuess} />
+          </Grid>
         </Grid>
       </Grid>
     )

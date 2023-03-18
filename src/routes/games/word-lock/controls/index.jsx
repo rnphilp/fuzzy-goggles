@@ -1,6 +1,8 @@
+/** @jsxImportSource @emotion/react */
+
 import PT from 'prop-types';
 import { useState } from 'react';
-import { Stack, IconButton } from '@mui/material';
+import { Stack, IconButton, Grid } from '@mui/material';
 import { KeyboardReturn } from '@mui/icons-material';
 
 import Buttons from './buttons';
@@ -16,19 +18,23 @@ function Controls({ letters, submitGuess }) {
     setCurrentGuess('');
   };
   return (
-    <>
-      <CurrentGuess text={currentGuess} />
-      <Stack spacing={2} direction="row">
-        <Buttons letters={letters} handleClick={updateGuess} />
-        <IconButton
-          color="secondary"
-          aria-label="submit"
-          onClick={handleSubmit}
-        >
-          <KeyboardReturn />
-        </IconButton>
-      </Stack>
-    </>
+    <Grid container item direction="column" alignItems="center" spacing={4}>
+      <Grid item>
+        <CurrentGuess text={currentGuess} />
+      </Grid>
+      <Grid item>
+        <Stack spacing={2} direction="row">
+          <Buttons letters={letters} handleClick={updateGuess} />
+          <IconButton
+            color="secondary"
+            aria-label="submit"
+            onClick={handleSubmit}
+          >
+            <KeyboardReturn />
+          </IconButton>
+        </Stack>
+      </Grid>
+    </Grid>
   );
 }
 
