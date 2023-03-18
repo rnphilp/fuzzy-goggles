@@ -45,6 +45,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test-scripts": "jest --runInBand --watchAll --logHeapUsage --detectOpenHandles scripts",
     "eject": "react-scripts eject",
     "lint": "eslint . --fix",
     "prepare": "husky install"

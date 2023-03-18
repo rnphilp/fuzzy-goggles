@@ -16,20 +16,48 @@ const writeToFile = (data, filename) =>
     JSON.stringify(data)
   );
 
-const groupByLetters = allWords => {
-  const groupedWords = _.groupBy(allWords, word => _.uniq([...word]).sort());
-  const popularGroups = {};
-  Object.entries(groupedWords).forEach(([letters, words]) => {
-    if (words.length > 5) {
-      const lettersArr = letters.split(',');
-      if (!popularGroups[lettersArr.length]) {
-        popularGroups[lettersArr.length] = [];
+const findContainedWords = (letters, wordObjs) => {
+  const words = [];
+  wordObjs.forEach(wordObj => {
+    if (letters.length > wordObj.letters.length) {
+      const containsEveryLetter = wordObj.letters.every(letter => {
+        return letters.includes(letter);
+      });
+      if (containsEveryLetter) {
+        words.push(...wordObj.words);
       }
-      popularGroups[lettersArr.length].push({ letters: lettersArr, words });
     }
   });
-  return popularGroups;
+  return words;
 };
+
+const groupByLetters = allWords => {
+  const filteredWords = allWords.filter(word => word.length > 2);
+  const groupedWords = _.groupBy(filteredWords, word =>
+    _.uniq([...word]).sort()
+  );
+
+  const wordObjs = Object.entries(groupedWords).map(([letters, words]) => {
+    return {
+      letters: letters.split(','),
+      words,
+    };
+  });
+
+  const wordsByLength = {};
+  wordObjs.forEach(({ letters, words }) => {
+    if (letters.length <= 5) {
+      if (!wordsByLength[letters.length]) {
+        wordsByLength[letters.length] = [];
+      }
+      const containedWords = findContainedWords(letters, wordObjs);
+      const wordsToAdd = [...words, ...containedWords];
+      wordsByLength[letters.length].push({ letters, words: wordsToAdd });
+    }
+  });
+  return wordsByLength;
+};
+
 const runScript = filepath => {
   const allWords = readFile(filepath);
   const filteredWords = removeInvalidWords(allWords);
@@ -39,4 +67,9 @@ const runScript = filepath => {
   writeToFile(groupedWords, 'grouped-words');
 };
 
-runScript(`${__dirname}/data/english-word-list.txt`);
+if (process.env.NODE_ENV !== 'test')
+  runScript(`${__dirname}/data/brit-a-z.txt`);
+
+module.exports = {
+  findContainedWords,
+};
