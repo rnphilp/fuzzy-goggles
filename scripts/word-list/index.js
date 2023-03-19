@@ -2,12 +2,17 @@ const fs = require('fs');
 const _ = require('lodash');
 
 const readFile = filepath =>
-  fs.readFileSync(filepath).toString('UTF8').split('\n');
+  fs
+    .readFileSync(filepath)
+    .toString('UTF8')
+    .split('\n')
+    .map(word => word.trim('\\r'));
 
 // removes words with numbers, capital letters and special characters
 const removeInvalidWords = words =>
   words.filter(
-    word => ![...word].some(letter => letter === letter.toUpperCase())
+    word =>
+      word.length && ![...word].some(letter => letter === letter.toUpperCase())
   );
 
 const writeToFile = (data, filename) =>
