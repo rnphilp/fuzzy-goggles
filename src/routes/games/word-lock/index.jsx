@@ -2,6 +2,7 @@
 
 import { Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import WordGrid from './word-grid';
 import Controls from './controls';
@@ -22,7 +23,7 @@ const styles = {
   },
 };
 
-const selectWord = noOfLetters => {
+const selectWords = noOfLetters => {
   const wordGroup = groupedWords[noOfLetters];
   const randomIndex = Math.round(Math.random() * wordGroup.length);
   return {
@@ -53,10 +54,14 @@ function WordLock() {
   const [words, setWords] = useState([]);
   const [letters, setLetters] = useState([]);
 
-  useEffect(() => {
-    const newWords = selectWord(noOfLetters);
+  const setNewWords = numOfLetters => {
+    const newWords = selectWords(numOfLetters);
     setWords(newWords.words);
     setLetters(newWords.letters);
+  };
+
+  useEffect(() => {
+    setNewWords(noOfLetters);
   }, []);
 
   const [guessedWords, setGuessedWords] = useState([]);
@@ -69,27 +74,40 @@ function WordLock() {
 
   return (
     words.length && (
-      <Grid
-        container
-        direction={isPortrait ? 'column' : 'row'}
-        justifyContent="center"
-        alignItems="center"
-        flexWrap="nowrap"
-        css={styles.grid}
+      <ErrorBoundary
+        fallbackRender={({ resetErrorBoundary }) => {
+          setNewWords(noOfLetters);
+          resetErrorBoundary();
+        }}
       >
         <Grid
-          item
-          xs={6}
-          css={isPortrait ? styles.wordGridPortrait : styles.wordGrid}
+          container
+          direction={isPortrait ? 'column' : 'row'}
+          justifyContent="center"
+          alignItems="center"
+          flexWrap="nowrap"
+          css={styles.grid}
         >
-          <WordGrid words={words} guessedWords={guessedWords} />
-        </Grid>
-        <Grid item container justifyContent="center" alignItems="center" xs={6}>
-          <Grid>
-            <Controls letters={letters} submitGuess={handleGuess} />
+          <Grid
+            item
+            xs={6}
+            css={isPortrait ? styles.wordGridPortrait : styles.wordGrid}
+          >
+            <WordGrid allWords={words} guessedWords={guessedWords} />
+          </Grid>
+          <Grid
+            item
+            container
+            justifyContent="center"
+            alignItems="center"
+            xs={6}
+          >
+            <Grid>
+              <Controls letters={letters} submitGuess={handleGuess} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </ErrorBoundary>
     )
   );
 }

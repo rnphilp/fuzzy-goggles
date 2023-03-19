@@ -18,7 +18,7 @@ export default (word, placedWords) => {
 
   const matchFound = placedWords.some(placedWord => {
     const { word: existingWord } = placedWord;
-
+    // TODO: order of letters in word could be randomised to improve grid distribution
     return word.split('').some((letter, i) => {
       const indexOfMatch = existingWord.indexOf(letter);
       if (indexOfMatch !== -1) {

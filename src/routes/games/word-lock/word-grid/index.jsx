@@ -18,13 +18,13 @@ const config = {
   gap: 1,
 };
 
-function WordGrid({ words, guessedWords }) {
+function WordGrid({ allWords, guessedWords }) {
   const [wordsLayout, setWordsLayout] = useState([]);
 
   useEffect(() => {
-    const arrangedWords = arrangeWords(words);
+    const arrangedWords = arrangeWords(allWords);
     setWordsLayout(arrangedWords);
-  }, [words]);
+  }, [allWords]);
 
   const { minX, minY, width, height } = gridSize(wordsLayout, config);
   const padding = config.cellSize / 2;
@@ -40,23 +40,25 @@ function WordGrid({ words, guessedWords }) {
   });
 
   return (
-    <svg viewBox={viewBoxDims} css={styles.svgBox}>
-      {orderedWords.map(({ word, coordinates, direction }) => (
-        <Word
-          key={word}
-          word={word}
-          hide={!guessedWords.includes(word)}
-          coordinates={coordinates}
-          direction={direction}
-          config={config}
-        />
-      ))}
-    </svg>
+    orderedWords.length && (
+      <svg viewBox={viewBoxDims} css={styles.svgBox}>
+        {orderedWords.map(({ word, coordinates, direction }) => (
+          <Word
+            key={word}
+            word={word}
+            hide={!guessedWords.includes(word)}
+            coordinates={coordinates}
+            direction={direction}
+            config={config}
+          />
+        ))}
+      </svg>
+    )
   );
 }
 
 WordGrid.propTypes = {
-  words: PT.arrayOf(PT.string.isRequired).isRequired,
+  allWords: PT.arrayOf(PT.string.isRequired).isRequired,
   guessedWords: PT.arrayOf(PT.string.isRequired).isRequired,
 };
 
