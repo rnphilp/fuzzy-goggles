@@ -10,11 +10,21 @@ const readFile = filepath =>
     .split('\n')
     .map(word => word.trim('\\r'));
 
-// removes words with numbers, capital letters and special characters
+/**
+ * removes:
+ * - empty strings
+ * - words with numbers, capital letters and special characters
+ * - roman numerals
+ */
 const removeInvalidWords = words =>
   words.filter(
     word =>
-      word.length && ![...word].some(letter => letter === letter.toUpperCase())
+      word.length &&
+      ![...word].some(letter => letter === letter.toUpperCase()) &&
+      (!/^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/.test(
+        word.toUpperCase()
+      ) ||
+        word === 'mix') // prevent the roman numeral regex from removing mix
   );
 
 const writeToFile = (data, filename) => {
@@ -63,7 +73,8 @@ const groupByLetters = allWords => {
       }
       const containedWords = findContainedWords(letters, wordObjs);
       const wordsToAdd = [...words, ...containedWords];
-      wordsByLength[letters.length].push({ letters, words: wordsToAdd });
+      if (wordsToAdd.length > 5)
+        wordsByLength[letters.length].push({ letters, words: wordsToAdd });
     }
   });
   return wordsByLength;

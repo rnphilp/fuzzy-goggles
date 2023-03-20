@@ -9562,6 +9562,7 @@ bullying
 bullyrag
 bulrush
 bulwark
+bum
 bumbershoot
 bumble
 bumblebee
@@ -58226,7 +58227,6 @@ randomises
 randomising
 randomly
 randomness
-randy
 rang
 range
 ranged
@@ -66658,13 +66658,10 @@ sparsely
 sparseness
 sparser
 sparsest
-spas
 spasm
 spasmodic
 spasmodically
 spasms
-spastic
-spastically
 spat
 spate
 spate's
