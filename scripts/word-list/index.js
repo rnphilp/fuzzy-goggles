@@ -1,5 +1,7 @@
 const fs = require('fs');
 const _ = require('lodash');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const prettier = require('prettier');
 
 const readFile = filepath =>
   fs
@@ -15,11 +17,16 @@ const removeInvalidWords = words =>
       word.length && ![...word].some(letter => letter === letter.toUpperCase())
   );
 
-const writeToFile = (data, filename) =>
+const writeToFile = async (data, filename) => {
   fs.writeFileSync(
     `${__dirname}/../../src/data/${filename}.json`,
     JSON.stringify(data)
   );
+  const formattedData = prettier.format(JSON.stringify(data), {
+    filepath: `${__dirname}/output/${filename}.json`,
+  });
+  fs.writeFileSync(`${__dirname}/output/${filename}.json`, formattedData);
+};
 
 const findContainedWords = (letters, wordObjs) => {
   const words = [];
@@ -63,17 +70,17 @@ const groupByLetters = allWords => {
   return wordsByLength;
 };
 
-const runScript = filepath => {
+const runScript = async filepath => {
   const allWords = readFile(filepath);
   const filteredWords = removeInvalidWords(allWords);
-  writeToFile(filteredWords, 'words');
+  await writeToFile(filteredWords, 'words');
 
   const groupedWords = groupByLetters(filteredWords);
-  writeToFile(groupedWords, 'grouped-words');
+  await writeToFile(groupedWords, 'grouped-words');
 };
 
 if (process.env.NODE_ENV !== 'test')
-  runScript(`${__dirname}/data/brit-a-z.txt`);
+  runScript(`${__dirname}/data/brit-a-z-clean.txt`).then(() => process.exit(0));
 
 module.exports = {
   findContainedWords,
