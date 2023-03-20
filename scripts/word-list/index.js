@@ -17,15 +17,14 @@ const removeInvalidWords = words =>
       word.length && ![...word].some(letter => letter === letter.toUpperCase())
   );
 
-const writeToFile = async (data, filename) => {
+const writeToFile = (data, filename) => {
+  const formattedData = prettier.format(JSON.stringify(data), {
+    filepath: `${__dirname}/../../src/data/${filename}.json`,
+  });
   fs.writeFileSync(
     `${__dirname}/../../src/data/${filename}.json`,
-    JSON.stringify(data)
+    formattedData
   );
-  const formattedData = prettier.format(JSON.stringify(data), {
-    filepath: `${__dirname}/output/${filename}.json`,
-  });
-  fs.writeFileSync(`${__dirname}/output/${filename}.json`, formattedData);
 };
 
 const findContainedWords = (letters, wordObjs) => {
@@ -70,17 +69,17 @@ const groupByLetters = allWords => {
   return wordsByLength;
 };
 
-const runScript = async filepath => {
+const runScript = filepath => {
   const allWords = readFile(filepath);
   const filteredWords = removeInvalidWords(allWords);
-  await writeToFile(filteredWords, 'words');
+  writeToFile(filteredWords, 'words');
 
   const groupedWords = groupByLetters(filteredWords);
-  await writeToFile(groupedWords, 'grouped-words');
+  writeToFile(groupedWords, 'grouped-words');
 };
 
 if (process.env.NODE_ENV !== 'test')
-  runScript(`${__dirname}/data/brit-a-z-clean.txt`).then(() => process.exit(0));
+  runScript(`${__dirname}/data/brit-a-z-clean.txt`);
 
 module.exports = {
   findContainedWords,
