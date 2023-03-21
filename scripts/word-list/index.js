@@ -67,7 +67,7 @@ const groupByLetters = allWords => {
 
   const wordsByLength = {};
   wordObjs.forEach(({ letters, words }) => {
-    if (letters.length <= 5) {
+    if (letters.length > 2 && letters.length <= 5) {
       if (!wordsByLength[letters.length]) {
         wordsByLength[letters.length] = [];
       }

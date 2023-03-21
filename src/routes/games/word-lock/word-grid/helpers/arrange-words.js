@@ -3,18 +3,21 @@ import { shuffle } from '../../../../../utils';
 
 const arrangeWords = (words = [], attempt = 0) => {
   const minGridSize = 5;
+  const maxGridSize = 10;
   const maxAttempts = 100;
 
   const placedWords = [];
   const shuffledWords = shuffle(words);
 
   shuffledWords.forEach(word => {
-    const shuffledPlacedWords = shuffle(placedWords);
-    try {
-      const placedWord = placeWord(word, shuffledPlacedWords);
-      placedWords.push(placedWord);
-    } catch (err) {
-      // do nothing
+    if (placedWords <= maxGridSize) {
+      const shuffledPlacedWords = shuffle(placedWords);
+      try {
+        const placedWord = placeWord(word, shuffledPlacedWords);
+        placedWords.push(placedWord);
+      } catch (err) {
+        // do nothing
+      }
     }
   });
 
