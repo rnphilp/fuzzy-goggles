@@ -39,8 +39,8 @@ function WordGrid({ allWords, guessedWords }) {
     return 0;
   });
 
-  return (
-    orderedWords.length && (
+  if (orderedWords.length)
+    return (
       <svg viewBox={viewBoxDims} css={styles.svgBox}>
         {orderedWords.map(({ word, coordinates, direction }) => (
           <Word
@@ -53,8 +53,7 @@ function WordGrid({ allWords, guessedWords }) {
           />
         ))}
       </svg>
-    )
-  );
+    );
 }
 
 WordGrid.propTypes = {

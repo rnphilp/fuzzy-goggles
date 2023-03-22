@@ -71,9 +71,8 @@ function WordLock() {
     updatedGuesses.push(guess);
     setGuessedWords(updatedGuesses);
   };
-
-  return (
-    words.length && (
+  if (words.length)
+    return (
       <ErrorBoundary
         fallbackRender={({ resetErrorBoundary }) => {
           setNewWords(noOfLetters);
@@ -108,8 +107,7 @@ function WordLock() {
           </Grid>
         </Grid>
       </ErrorBoundary>
-    )
-  );
+    );
 }
 
 export default WordLock;
