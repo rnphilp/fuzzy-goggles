@@ -52,6 +52,13 @@ const findContainedWords = (letters, wordObjs) => {
   return words;
 };
 
+const sortByArray = (collection, sortArray) => {
+  return _.sortBy(collection, item => {
+    const index = sortArray.indexOf(item);
+    return index === -1 ? Infinity : index;
+  });
+};
+
 const groupByLetters = allWords => {
   const filteredWords = allWords.filter(word => word.length > 2);
   const groupedWords = _.groupBy(filteredWords, word =>
@@ -83,10 +90,27 @@ const groupByLetters = allWords => {
 const runScript = filepath => {
   const allWords = readFile(filepath);
   const filteredWords = removeInvalidWords(allWords);
-  writeToFile(filteredWords, 'words');
 
-  const groupedWords = groupByLetters(filteredWords);
-  writeToFile(groupedWords, 'grouped-words');
+  const frequencyData = readFile(
+    `${__dirname}/data/enwiki-frequency-list.txt`
+  ).map(line => line.split(' ')[0]);
+  const filteredFrequencyData = removeInvalidWords(frequencyData);
+
+  const orderedWords = sortByArray(filteredWords, filteredFrequencyData);
+  writeToFile(orderedWords, 'words');
+
+  const levels = {
+    easy: 0.25,
+    medium: 0.5,
+    hard: 0.75,
+    'extra-hard': 1.0,
+  };
+
+  Object.entries(levels).forEach(([level, split]) => {
+    const words = orderedWords.slice(0, orderedWords.length * split);
+    const groupedWords = groupByLetters(words);
+    writeToFile(groupedWords, `grouped-words-${level}`);
+  });
 };
 
 if (process.env.NODE_ENV !== 'test')
