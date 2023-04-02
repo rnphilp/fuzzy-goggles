@@ -6,14 +6,16 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import WordGrid from './word-grid';
 import Controls from './controls';
-import { groupedWords } from '../../../data';
+import BackgroundImg from '../../../components/background-image';
+import image from '../../../assets/images/wooden-floor.jpg';
+import { groupedWords } from '../../../assets/data';
 
 const styles = {
   grid: {
-    width: '100vw',
-    height: '100vh',
+    width: '100%',
+    height: '100%',
   },
-  wordGrid: {
+  wordGridLandscape: {
     height: '100%',
     width: '100%',
   },
@@ -79,33 +81,37 @@ function WordLock() {
           resetErrorBoundary();
         }}
       >
-        <Grid
-          container
-          direction={isPortrait ? 'column' : 'row'}
-          justifyContent="center"
-          alignItems="center"
-          flexWrap="nowrap"
-          css={styles.grid}
-        >
+        <BackgroundImg src={image}>
           <Grid
-            item
-            xs={6}
-            css={isPortrait ? styles.wordGridPortrait : styles.wordGrid}
-          >
-            <WordGrid allWords={words} guessedWords={guessedWords} />
-          </Grid>
-          <Grid
-            item
             container
+            direction={isPortrait ? 'column' : 'row'}
             justifyContent="center"
             alignItems="center"
-            xs={6}
+            flexWrap="nowrap"
+            css={styles.grid}
           >
-            <Grid>
-              <Controls letters={letters} submitGuess={handleGuess} />
+            <Grid
+              item
+              xs={6}
+              css={
+                isPortrait ? styles.wordGridPortrait : styles.wordGridLandscape
+              }
+            >
+              <WordGrid allWords={words} guessedWords={guessedWords} />
+            </Grid>
+            <Grid
+              item
+              container
+              justifyContent="center"
+              alignItems="center"
+              xs={6}
+            >
+              <Grid>
+                <Controls letters={letters} submitGuess={handleGuess} />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </BackgroundImg>
       </ErrorBoundary>
     );
 }

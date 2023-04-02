@@ -26,7 +26,7 @@ function Controls({ letters, submitGuess }) {
         <Stack spacing={2} direction="row">
           <Buttons letters={letters} handleClick={updateGuess} />
           <IconButton
-            color="secondary"
+            color="default"
             aria-label="submit"
             onClick={handleSubmit}
           >

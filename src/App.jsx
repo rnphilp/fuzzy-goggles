@@ -8,10 +8,21 @@ import theme from './theme';
 
 const router = createBrowserRouter(routesConfig);
 
+const styles = {
+  main: {
+    width: '100vw',
+    height: '100%',
+    minHeight: '100%',
+    boxSizing: 'border-box',
+    overflowX: 'hidden',
+    overflowY: 'hidden',
+  },
+};
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <main>
+      <main css={styles.main}>
         <RouterProvider router={router} />
       </main>
     </ThemeProvider>
