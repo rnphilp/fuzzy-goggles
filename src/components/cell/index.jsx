@@ -1,20 +1,29 @@
 /** @jsxImportSource @emotion/react */
 
 import PT from 'prop-types';
+import { useTheme } from '@mui/material/styles';
 
-const styles = {
-  rectStyles: {
-    stroke: 'red',
-    strokeWidth: 0.5,
-    fill: 'green',
+const themedStyles = theme => ({
+  cell: {
+    // stroke: 'red',
+    // strokeWidth: 0.5,
+    fill: theme.palette.primary.main,
+  },
+  emptyCell: {
+    // stroke: 'red',
+    // strokeWidth: 0.5,
+    fill: '#E2E2E2',
+    opacity: 0.75,
   },
   textStyles: {
-    fill: 'blue',
-    font: `8px roboto`,
+    fill: theme.palette.primary.contrastText,
+    font: `6px roboto`,
   },
-};
+});
 
 function Cell({ x, y, value, cellSize }) {
+  const theme = useTheme();
+  const styles = themedStyles(theme);
   return (
     <>
       <rect
@@ -23,7 +32,7 @@ function Cell({ x, y, value, cellSize }) {
         height={cellSize}
         width={cellSize}
         rx="1"
-        css={styles.rectStyles}
+        css={value ? styles.cell : styles.emptyCell}
       />
       <text
         x={x + cellSize / 2}
@@ -47,6 +56,8 @@ Cell.propTypes = {
   y: PT.number.isRequired,
   value: PT.string,
   cellSize: PT.number,
+  // eslint-disable-next-line
+  theme: PT.object,
 };
 
 export default Cell;
